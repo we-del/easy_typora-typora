@@ -1,8 +1,8 @@
 /*
  * @Author: 李云翔
  * @Date: 2023-04-27 18:56:12
- * @LastEditTime: 2024-02-15 10:55:38
- * @FilePath: \markdown\src\views\useState.ts
+ * @LastEditTime: 2024-02-16 11:43:23
+ * @FilePath: \easy_typora-typora\src\views\useState.ts
  * @Description:
  *
  */
@@ -42,7 +42,8 @@ export function useState(): HomeWriterViewState {
   // 保存上一次准备进行的操作，原则上，只要选中了所有结点信息，此时我就认为你是要执行关闭操作了
 
   // 监听当前正常操作的元素，当元素发生改变时由底层调用(包括元素长度的变化，元素点击的改变变化)
-  document.addEventListener('selectionchange', () => {
+  document.addEventListener('selectionchange', (e) => {
+    console.log('change')
     tagDetailHandler()
   })
 
@@ -100,8 +101,7 @@ export function useState(): HomeWriterViewState {
     if (htmlStr.indexOf('<') === -1 && htmlStr) {
       const insertIndex = htmlStr.indexOf('<')
       // console.log('首部标签需要处理', insertIndex)
-      // if (insertIndex) {
-      // }
+    
       e.target.innerHTML = `<p>${htmlStr}</p>`
       // 保存当前的选择范围
       moveCursorToParagraphEnd(e.target)

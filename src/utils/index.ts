@@ -1,8 +1,8 @@
 /*
  * @Author: 李云翔
  * @Date: 2023-04-28 09:08:02
- * @LastEditTime: 2024-02-15 13:39:52
- * @FilePath: \markdown\src\utils\index.ts
+ * @LastEditTime: 2024-02-16 17:40:57
+ * @FilePath: \easy_typora-typora\src\utils\index.ts
  * @Description:
  *
  */
@@ -45,7 +45,7 @@ export function tagReplace(el: HTMLElement, tag: string, option?: { [prop: strin
   }
   if (newEl.tagName === 'UL' || newEl.tagName === 'OL') {
     const liEl = document.createElement('li')
-    liEl.innerText = ' '
+    // liEl.innerHTML = '&nbsp;'
     newEl.appendChild(liEl)
   }
   el.replaceWith(newEl)
@@ -55,6 +55,9 @@ export function tagReplace(el: HTMLElement, tag: string, option?: { [prop: strin
   newEl.focus()
   // 将光标定位到该标签最后的位置
   moveCursorToParagraphEnd(newEl)
+  executeAfterDefaultRender(() => {
+    clearElStartSpace(newEl)
+  })
   return newEl.tagName.toLowerCase()
 }
 
@@ -88,7 +91,7 @@ export function tagContentCleaner(tagContent: string): string {
 export function getAllSelectNode() {
   const selectedNodes = []
 
-  const selection = window.getSelection()
+  const selection: any = window.getSelection()
   console.log('selection :>> ', selection)
   for (let i = 0; i < selection.rangeCount; i++) {
     const range = selection.getRangeAt(i)
@@ -121,7 +124,7 @@ export function getCurSelectedElement(): HTMLElement | null | undefined {
   // 获取包含选中文本的最小共同祖先元素
   const container = range?.commonAncestorContainer
   // 如果选中文本不在元素内，则返回null
-  const selectedElement = container?.nodeType === 1 ? container : container?.parentNode
+  const selectedElement: any = container?.nodeType === 1 ? container : container?.parentNode
   return selectedElement
 }
 
@@ -177,13 +180,10 @@ export function getRandId() {
  * @return {*}
  */
 export function contentParse(htmlStr: string) {
-  // const reg = /<.*?>.*?<\/.*?>/g
-  // const tagArr = [...htmlStr.matchAll(reg)]
-  // const jsonTagArr = JSON.stringify(tagArr)
-  // console.log(jsonTagArr)
+  const el = getCurSelectedElement()
+  if (!(el?.tagName.includes('H'))) return
   const patternHTagReg = /<h.*?>(.*?)<\/h.*?>/g
   const arr: Array<string> = [...htmlStr.matchAll(patternHTagReg)].map((hTag) => hTag[0])
-
   const hArr: Array<string> = []
   arr.forEach((hTag: string) => {
     const hPattern = /id=(\d+)/
@@ -192,10 +192,8 @@ export function contentParse(htmlStr: string) {
     const target = hArr.find((h: string) => h.includes(id))
     target || hArr.push(hTag)
   })
-  const el = getCurSelectedElement()
-  buildOutlineTree(hArr, el)
 
-  //每次改变都进行记录，实时更新大纲内容
+  buildOutlineTree(hArr)
 }
 
 /**

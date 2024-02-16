@@ -2,8 +2,8 @@ import { tagContentCleaner } from '@/utils'
 /*
  * @Author: 李云翔
  * @Date: 2023-05-02 09:36:34
- * @LastEditTime: 2023-05-03 11:23:54
- * @FilePath: \vue3_markdown\markdown\src\views\shortcutService.ts
+ * @LastEditTime: 2024-02-16 17:33:09
+ * @FilePath: \easy_typora-typora\src\views\shortcutService.ts
  * @Description:
  *
  */

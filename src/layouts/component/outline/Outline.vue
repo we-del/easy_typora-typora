@@ -1,8 +1,8 @@
 <!--
  * @Author: 李云翔
  * @Date: 2023-04-30 11:54:33
- * @LastEditTime: 2023-05-03 10:59:31
- * @FilePath: \vue3_markdown\markdown\src\layouts\component\outline\Outline.vue
+ * @LastEditTime: 2024-02-16 17:48:31
+ * @FilePath: \easy_typora-typora\src\layouts\component\outline\Outline.vue
  * @Description: 
  * 
 -->
@@ -44,7 +44,6 @@ const handleNodeClick = (data: TreeNode) => {
     top: data.el.offsetTop,
     behavior: 'smooth'
   })
-  console.log('内容滑动', data, data.el.offsetTop)
 }
 const outlineStore = useOutlineStore()
 

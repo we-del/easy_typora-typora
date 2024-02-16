@@ -8,26 +8,17 @@ import { tagContentCleaner } from "@/utils"
  * @param {HTMLElement} el 当前操作的元素，如果是h时，则进行树的构建且引用对应关联的dom标签
  * @return {*}
  */
-export function buildOutlineTree(arr: string[], el?: HTMLElement) {
+export function buildOutlineTree(arr: string[]) {
   const outlineStore = useOutlineStore()
-  // outlineStore.
   if (JSON.stringify(arr) === '[]') {
     // 没有H了，大纲为空清空大纲
     outlineStore.tree = []
-    // console.log('大纲树不存在')
 
     return
   }
-  // if (!el?.tagName.toUpperCase().includes('H')) {
-  //   console.log('大纲树存在，但当前没有操作大纲树内容')
-  //   return
-  // }
 
   const tree: Array<TreeNode> = []
-  // const tree: Array<TreeNode> = outlineStore.tree || []
   for (let i = 0; i < arr.length; i++) {
-    // console.log('结点列表为:', tree)
-
     // 根结点
     if (tree.length === 0) {
       tree.push(treeNodeWrapper(arr[i]))
@@ -44,12 +35,10 @@ export function buildOutlineTree(arr: string[], el?: HTMLElement) {
       const lastNodeIndex = nodePath.length - 1
       const lastNode = nodePath[lastNodeIndex]
 
-      // if (!lastNode.children) lastNode.children = []
       const node = treeNodeWrapper(arr[i])
       const layer = lastNodeIndex + 1
-      // // 最终包裹层级为搜索路径的长度，如果有一个父级结点，则层级为1，两个父级结点则成绩为2...
-      // node.layer = lastNodeIndex + 1
-      // lastNode.children.push(node)
+      //  最终包裹层级为搜索路径的长度，如果有一个父级结点，则层级为1，两个父级结点则成绩为2...
+      
       mountNodeToParentNode(lastNode, node, layer)
 
       continue
@@ -70,8 +59,6 @@ export function buildOutlineTree(arr: string[], el?: HTMLElement) {
 function treeNodeWrapper(tagString: string): TreeNode {
   const node: TreeNode = { el: null, label: '', tagName: '' }
 
-  // const contentPattern = /<(.*?)\s*id=(.*?)>(.*?)<\/.*?>/
-  // const contentPattern = /<(.*?)\s*id=(.*?)\s*(style=.*?)?>(.*?)<\/.*?>/
   const contentPattern = /<(.*?)\s*id=(.*?)>(.*?)<\/.*?>/
 
   const matchRes = contentPattern.exec(tagString)
@@ -79,8 +66,6 @@ function treeNodeWrapper(tagString: string): TreeNode {
   if (matchRes) {
     // 处理错误匹配dom元素问题
     node.tagName = matchRes[1]
-    // debugger
-    // const id = matchRes[2] || matchRes[3]
     const id = matchRes[2].split(' ')[0]
     let content = ''
     if (id) {

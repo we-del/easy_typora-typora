@@ -24,7 +24,7 @@ const { markdownChangeHandler, markdownContainerRef } = useState()
        cy-markdown
        style="padding:5vw"
        @input="markdownChangeHandler"
-       @keydown.ctrl=" markdownChangeHandler"
+       @keydown.ctrl="markdownChangeHandler"
        @keydown.delete.exact="tagContentRemoveHandler"
        @keydown.enter.exact="inputEnterCreateEle"
        @keydown.ctrl.x.exact="cutTagHandler"
@@ -49,6 +49,7 @@ const { markdownChangeHandler, markdownContainerRef } = useState()
   list-style-type: decimal;
   padding-left: 20px;
 }
+
 h1,
 h2,
 h3,
